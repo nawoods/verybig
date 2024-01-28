@@ -1,44 +1,55 @@
 import { useState } from "react";
 import { Alert, Box, Button, Grid, Modal, TextField } from "../../node_modules/@mui/material/index";
+import { Participant, UpcomingMatch } from "../types";
 import AddNewMatchModal from "./AddNewMatchModal";
 import UpcomingMatchesTable from "./UpcomingMatchesTable";
 
-function MatchesPage() {
-  const [matches, setMatches] = useState([
+type MatchesPageProps = {
+  participants: Participant[]
+}
+
+function MatchesPage(props: MatchesPageProps) {
+  const [matches, setMatches] = useState<UpcomingMatch[]>([
     {
       id: 1,
       player1: "arbaro",
-      player2: "tobs",
+      player2: "burritodad",
       time: Date.parse("2024-02-26T06:30Z")
     },
     {
       id: 2,
       player1: "snowytetris",
-      player2: "lapis lazuli",
+      player2: "frenchiestfrie",
       time: Date.parse("2024-01-30T06:00Z"),
-      restreamer: "sunny"
+      restreamer: "gildedlizard"
     }
   ]);
-  const defaultNewMatch = {
+  const defaultNewMatch: UpcomingMatch = {
     id: matches.reduce(((acc, match) => Math.max(acc, match.id) + 1), 0),
     player1: "",
     player2: "",
     time: 0
   }
-  const [newMatch, setNewMatch] = useState(defaultNewMatch);
-  const [addMatchModalOpen, setAddMatchModalOpen] = useState(false);
-  const [addMatchError, setAddMatchError] = useState(false);
+  const [newMatch, setNewMatch] = useState<UpcomingMatch>(defaultNewMatch);
+  const [addMatchModalOpen, setAddMatchModalOpen] = useState<boolean>(false);
+  const [addMatchError, setAddMatchError] = useState<boolean>(false);
 
-  const deleteMatchHandler = (id: number) => {
+  const deleteMatchHandler = (id: number): void => {
     setMatches(matches.filter(match => match.id !== id));
   }
 
-  const updateNewMatch = (event: any) => {
-    const { name, value } = event.target;
+  const updateMatchPlayer = (player: "player1" | "player2", value: any) => {
     setNewMatch({
       ...newMatch,
-      [name]: value
+      [player]: value.target.outerText
     });
+  };
+
+  const updateMatchTime = (event: any) => {
+    setNewMatch({
+      ...newMatch,
+      time: event.target.value
+    })
   }
 
   const addNewMatch = () => {
@@ -66,7 +77,8 @@ function MatchesPage() {
       <AddNewMatchModal
         addMatchModalOpen={addMatchModalOpen}
         setAddMatchModalOpen={setAddMatchModalOpen}
-        updateNewMatch={updateNewMatch}
+        updateMatchPlayer={updateMatchPlayer}
+        updateMatchTime={updateMatchTime}
         addNewMatch={addNewMatch}
         addMatchError={addMatchError}
       />
