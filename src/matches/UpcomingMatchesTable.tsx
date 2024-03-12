@@ -1,17 +1,10 @@
 import { Table, TableBody, TableCell, TableRow } from "../../node_modules/@mui/material/index";
 import "./UpcomingMatchesTable.css";
-
-
-type MatchInfo = {
-  id: number,
-  player1: string,
-  player2: string,
-  time: number,
-  restreamer?: string
-}
+import { UpcomingMatch } from "../types";
+import { DateTime } from "luxon";
 
 type UpcomingMatchesTableProps = {
-  matches: MatchInfo[],
+  matches: UpcomingMatch[],
   deleteMatchHandler: (row: number) => void
 }
 
@@ -26,7 +19,7 @@ export default function UpcomingMatchesTable(props: UpcomingMatchesTableProps) {
               <TableCell className="tableCell">{row.player1}</TableCell>
               <TableCell className="tableCell">vs</TableCell>
               <TableCell className="tableCell">{row.player2}</TableCell>
-              <TableCell className="tableCell">{row.time.toString()}</TableCell>
+              <TableCell className="tableCell">{row.time.toLocaleString(DateTime.DATETIME_MED)}</TableCell>
               <TableCell className="tableCell">
                 {
                   row.restreamer ? `Restreamer: ${row.restreamer}` : "Restreamer needed"

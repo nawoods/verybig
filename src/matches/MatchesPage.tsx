@@ -3,9 +3,10 @@ import { Alert, Box, Button, Grid, Modal, TextField } from "../../node_modules/@
 import { Participant, UpcomingMatch } from "../types";
 import AddNewMatchModal from "./AddNewMatchModal";
 import UpcomingMatchesTable from "./UpcomingMatchesTable";
+import { DateTime } from "luxon";
 
 type MatchesPageProps = {
-  participants: Participant[]
+  // participants: Participant[]
 }
 
 function MatchesPage(props: MatchesPageProps) {
@@ -14,13 +15,13 @@ function MatchesPage(props: MatchesPageProps) {
       id: 1,
       player1: "arbaro",
       player2: "burritodad",
-      time: Date.parse("2024-02-26T06:30Z")
+      time: DateTime.fromISO("2024-02-26T06:30Z")
     },
     {
       id: 2,
       player1: "snowytetris",
       player2: "frenchiestfrie",
-      time: Date.parse("2024-01-30T06:00Z"),
+      time: DateTime.fromISO("2024-01-30T06:00Z"),
       restreamer: "gildedlizard"
     }
   ]);
@@ -28,7 +29,7 @@ function MatchesPage(props: MatchesPageProps) {
     id: matches.reduce(((acc, match) => Math.max(acc, match.id) + 1), 0),
     player1: "",
     player2: "",
-    time: 0
+    time: DateTime.now()
   }
   const [newMatch, setNewMatch] = useState<UpcomingMatch>(defaultNewMatch);
   const [addMatchModalOpen, setAddMatchModalOpen] = useState<boolean>(false);
@@ -45,17 +46,17 @@ function MatchesPage(props: MatchesPageProps) {
     });
   };
 
-  const updateMatchTime = (event: any) => {
+  const updateMatchTime = (value: DateTime) => {
     setNewMatch({
       ...newMatch,
-      time: event.target.value
+      time: value
     })
   }
 
   const addNewMatch = () => {
     if (newMatch.player1 === ""
       || newMatch.player2 === ""
-      || newMatch.time === 0
+      || newMatch.time < DateTime.now()
       || newMatch.time === undefined) {
       setAddMatchError(true);
       return;

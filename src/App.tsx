@@ -2,6 +2,8 @@ import { createContext, useState } from 'react';
 import './App.css';
 import MatchesPage from './matches/MatchesPage';
 import { AppData, Participant } from './types';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 
 
 const defaultParticipantList: Participant[] = [
@@ -53,7 +55,9 @@ function App() {
 
   return (
     <DataContext.Provider value={appData}>
-      <MatchesPage />
+      <LocalizationProvider dateAdapter={AdapterLuxon}>
+        <MatchesPage />
+      </LocalizationProvider>
     </DataContext.Provider>
   )
 }

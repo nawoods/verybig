@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 type Role = "player" | "restreamer" | "admin";
 
 type Participant = {
@@ -17,7 +18,7 @@ type UpcomingMatch = {
   player1: string;
   player2: string;
   restreamer?: string;
-  time: number;
-}
+  time: DateTime;
+};
 
 export type { Role, Participant, AppData, UpcomingMatch };

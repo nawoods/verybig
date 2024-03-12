@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Modal, Box, Grid, TextField, Button, Alert, Autocomplete } from "../../node_modules/@mui/material/index";
 import { Participant } from "../types";
 import { DataContext } from "../App"
+import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 
 type AddNewMatchModalProps = {
   addMatchModalOpen: boolean;
@@ -57,12 +58,8 @@ function AddNewMatchModal(props: AddNewMatchModalProps) {
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="time"
-              name="time"
-              label="time"
-              onChange={props.updateMatchTime}
+            <DateTimePicker 
+              onChange={props.updateMatchTime} 
             />
           </Grid>
           <Grid item xs={12} sm={6}>
